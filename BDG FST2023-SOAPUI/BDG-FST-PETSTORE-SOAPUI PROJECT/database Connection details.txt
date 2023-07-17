@@ -1,0 +1,5 @@
+Host: db4free.net
+Port: 3306
+Username: fstm1db
+Password: 5kki2ERWxiPqzXG
+Database name: fstm1db

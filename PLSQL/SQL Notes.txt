@@ -1,0 +1,395 @@
+SELECT * FROM table_name; 
+SELECT CustomerName FROM Customers;
+SELECT CustomerName, City FROM Customers;
+To get unique values from the columns, the DISTINCT command is used along with SELECT:
+ SELECT DISTINCT Country FROM Customers; 
+
+The WHERE clause is used to extract only those records that fulfill a specified condition.
+SELECT * FROM Customers WHERE Country='Mexico';
+SELECT PostalCode, City FROM Customers WHERE ContactName='Thomas Hardy';
+
+
+
+
+SELECT * FROM Customers
+ORDER BY Country;
+
+SELECT * FROM Customers
+ORDER BY Country DESC;
+
+SELECT * FROM Customers
+ORDER BY Country, CustomerName; 
+
+SELECT * FROM Customers
+ORDER BY Country ASC, CustomerName DESC; 
+
+DISTINCT: Removes duplicates from the result set.
+Comparison operators: Use the comparison operators including greater than, greater than or equal, less than, less than or equal, equal, and not equal to form the condition in the WHERE clause.
+Logical operators: Use logical operators and how to use them to test for the truth of a condition.
+
+The DISTINCT statement is used to return only distinct values.
+Inside a table, a column often contains many duplicate values; and sometimes you only want to list the distinct values.
+Syntax of DISTINCT:
+
+SELECT DISTINCT salary FROM employees;
+
+You can also combine DISTINCT with ORDERBY filter as well:
+SELECT DISTINCT salary FROM employees ORDER BY salary
+
+
+FILTERING DATA USING COMPARISON OPERATORS
+With Equal to (=):
+--Get salary values equal to 17000
+SELECT salary FROM employees WHERE salary = 17000;
+
+With Not Equal to (<>):
+--Get all salary values not equal to 17000
+SELECT salary FROM employees WHERE salary <> 17000;
+
+With Greater than (>):
+--Get all salary values greater than 17000
+SELECT salary FROM employees WHERE salary > 17000;
+
+With Greater than Equal to (>=):
+--Get all salary values greater than or equal to 17000
+SELECT salary FROM employees WHERE salary >= 17000;
+
+With Less than (<):
+--Get all salary values less than 17000
+SELECT salary FROM employees WHERE salary < 17000;
+
+With Less than Equal to (<=):
+--Get all salary values less than or equal to 17000
+SELECT salary FROM employees WHERE salary <= 17000;
+
+
+With AND:
+--Get row data with salary less than 17000
+-- AND JobID equal to 5
+SELECT * FROM employees WHERE salary < 17000 AND JobID = 5
+
+With OR:
+--Get row data with either salary less than 17000
+-- OR JobID equal to 5
+SELECT * FROM employees WHERE salary < 17000 OR JobID = 5
+
+With BETWEEN:
+--Get row data with salary between 17000 and 20000
+SELECT * FROM employees WHERE salary BETWEEN 17000 AND 20000
+
+With NOT:
+--Get row data of all employees 
+-- whose JobID is NOT 5
+SELECT * FROM employees WHERE NOT JobID = 5
+
+
+-- DELETE the records
+
++----+----------+-----+-----------+----------+
+| ID | NAME     | AGE | ADDRESS   | SALARY   |
++----+----------+-----+-----------+----------+
+|  1 | Ramesh   |  32 | Ahmedabad |  2000.00 |
+|  2 | Khilan   |  25 | Delhi     |  1500.00 |
+|  3 | Kaushik  |  23 | Kota      |  2000.00 |
+|  4 | Chaitali |  25 | Mumbai    |  6500.00 |
+|  5 | Hardik   |  27 | Bhopal    |  8500.00 |
+|  6 | Komal    |  22 | MP        |  4500.00 |
+|  7 | Muffy    |  24 | Indore    | 10000.00 |
++----+----------+-----+-----------+----------+
+
+DELETE FROM CUSTOMERS WHERE AGE = 25;
+
+-- Commit the transaction
+COMMIT;
+
++----+----------+-----+-----------+----------+
+| ID | NAME     | AGE | ADDRESS   | SALARY   |
++----+----------+-----+-----------+----------+
+|  1 | Ramesh   |  32 | Ahmedabad |  2000.00 |
+|  3 | Kaushik  |  23 | Kota      |  2000.00 |
+|  5 | Hardik   |  27 | Bhopal    |  8500.00 |
+|  6 | Komal    |  22 | MP        |  4500.00 |
+|  7 | Muffy    |  24 | Indore    | 10000.00 |
++----+----------+-----+-----------+----------+
+
+ROLLBACK COMMAND
+Consider the same table as before:
++----+----------+-----+-----------+----------+
+| ID | NAME     | AGE | ADDRESS   | SALARY   |
++----+----------+-----+-----------+----------+
+|  1 | Ramesh   |  32 | Ahmedabad |  2000.00 |
+|  2 | Khilan   |  25 | Delhi     |  1500.00 |
+|  3 | Kaushik  |  23 | Kota      |  2000.00 |
+|  4 | Chaitali |  25 | Mumbai    |  6500.00 |
+|  5 | Hardik   |  27 | Bhopal    |  8500.00 |
+|  6 | Komal    |  22 | MP        |  4500.00 |
+|  7 | Muffy    |  24 | Indore    | 10000.00 |
++----+----------+-----+-----------+----------+
+
+-- DELETE the records from the table
+DELETE FROM CUSTOMERS WHERE AGE = 25;
+
+-- Undo the transaction
+ROLLBACK;
+
+Thus, the delete operation would not impact the table and the SELECT statement would produce the following result.
++----+----------+-----+-----------+----------+
+| ID | NAME     | AGE | ADDRESS   | SALARY   |
++----+----------+-----+-----------+----------+
+|  1 | Ramesh   |  32 | Ahmedabad |  2000.00 |
+|  2 | Khilan   |  25 | Delhi     |  1500.00 |
+|  3 | Kaushik  |  23 | Kota      |  2000.00 |
+|  4 | Chaitali |  25 | Mumbai    |  6500.00 |
+|  5 | Hardik   |  27 | Bhopal    |  8500.00 |
+|  6 | Komal    |  22 | MP        |  4500.00 |
+|  7 | Muffy    |  24 | Indore    | 10000.00 |
++----+----------+-----+-----------+----------+
+
+SAVEPOINT COMMAND
+A SAVEPOINT is a point in a transaction when you can roll the transaction back to a certain point without rolling back the entire transaction.
+
+The syntax for a SAVEPOINT command is as shown below.
+SAVEPOINT SAVEPOINT_NAME;
+ROLLBACK TO SAVEPOINT_NAME;
+
+Consider the same Customers table:
++----+----------+-----+-----------+----------+
+| ID | NAME     | AGE | ADDRESS   | SALARY   |
++----+----------+-----+-----------+----------+
+|  1 | Ramesh   |  32 | Ahmedabad |  2000.00 |
+|  2 | Khilan   |  25 | Delhi     |  1500.00 |
+|  3 | Kaushik  |  23 | Kota      |  2000.00 |
+|  4 | Chaitali |  25 | Mumbai    |  6500.00 |
+|  5 | Hardik   |  27 | Bhopal    |  8500.00 |
+|  6 | Komal    |  22 | MP        |  4500.00 |
+|  7 | Muffy    |  24 | Indore    | 10000.00 |
++----+----------+-----+-----------+----------+
+
+-- Savepoint created
+SAVEPOINT SP1;
+
+-- Delete row with ID = 1
+DELETE FROM CUSTOMERS WHERE ID=1;
+
+-- Create second Savepoint
+SAVEPOINT SP2;
+
+-- Delete row with ID = 2
+DELETE FROM CUSTOMERS WHERE ID=2;
+
+Now that the two deletions have taken place, let us assume that you have changed your mind and decided to ROLLBACK to the SAVEPOINT that you identified as SP2. Because SP2 was created after the first deletion, the last deletion is undone
+ROLLBACK TO SP2;
+
+-- Table after rollback
++----+----------+-----+-----------+----------+
+| ID | NAME     | AGE | ADDRESS   | SALARY   |
++----+----------+-----+-----------+----------+
+|  2 | Khilan   |  25 | Delhi     |  1500.00 |
+|  3 | Kaushik  |  23 | Kota      |  2000.00 |
+|  4 | Chaitali |  25 | Mumbai    |  6500.00 |
+|  5 | Hardik   |  27 | Bhopal    |  8500.00 |
+|  6 | Komal    |  22 | MP        |  4500.00 |
+|  7 | Muffy    |  24 | Indore    | 10000.00 |
++----+----------+-----+-----------+----------+
+
+
+AGGREGATE FUNCTIONS
+
+AVG():
+The AVG() function returns the average values in a set. For example:
+
+--calculate the average salary of each department
+SELECT department_name, ROUND(AVG(salary), 0) avg_salary
+FROM employees
+GROUP BY department_name
+ORDER BY department_name;
+
+MIN():
+The MIN() function returns the minimum value of a set. For example:
+
+--returns the minimum salary of the employees in each department
+SELECT department_name, MIN(salary) min_salary
+FROM employees
+GROUP BY department_name
+ORDER BY department_name;
+
+MAX():
+The MAX() function returns the maximum value of a set. For example:
+--returns the highest salary of employees in each department
+SELECT department_name, MAX(salary) highest_salary
+FROM employees
+GROUP BY department_name
+ORDER BY department_name;
+
+COUNT():
+The COUNT() function returns the number of items in a set. For example:
+--return the headcount of each department
+SELECT department_name, COUNT(*) headcount
+FROM employees
+GROUP BY department_name
+ORDER BY department_name;
+COPY
+
+SUM():
+The SUM() function returns the sum of all values. For example:
+--returns the total salary of all employees in each department
+SELECT department_id, SUM(salary)
+FROM employees
+GROUP BY department_id;
+
+
+To find the headcount of each department, you group the employees by the department_id column, and apply the COUNT function to each group as the following query:
+
+SELECT department_id, COUNT(employee_id) headcount
+FROM employees
+GROUP BY department_id;
+
+SELECT department_id, COUNT(employee_id) headcount
+FROM employees
+GROUP BY department_id
+ORDER BY headcount DESC;
+
+To find the department whose headcount is greater than 5, you use the HAVING clause as the following query:
+SELECT department_id, COUNT(employee_id) headcount
+FROM employees
+GROUP BY department_id
+HAVING headcount > 5
+ORDER BY headcount DESC;
+
+
+
+JOINS
+The process of linking tables is called joining.
+
+A JOIN clause is used to combine rows from two or more tables, based on a related column between them. SQL provides many kinds of joins such as inner join, left join, right join, full outer join, etc.
+
+Join clauses are used with SELECT commands to show data from multiple tables.
+
+SELECT column_name(s)
+FROM table1
+INNER JOIN table2
+ON table1.column_name = table2.column_name;
+
+JOINS
+The different types of Joins are:
+
+INNER JOIN: use the INNER JOIN clause to combine data from multiple tables.
+LEFT OUTER JOIN: another kind of join that allows you to combine data from multiple tables.
+FULL OUTER JOIN: join multiple tables by including rows from both tables whether or not the rows have matching rows from another table.
+CROSS JOIN: produce a Cartesian product of rows of the joined tables using the cross join operation.
+SELF JOIN: join a table to itself using either the inner join or left join clause.
+
+JOINS
+INNER JOIN
+The INNER JOIN keyword selects records that have matching values in both tables.
+
+Syntax:
+
+SELECT column_name(s)
+FROM table1
+INNER JOIN table2
+ON table1.column_name = table2.column_name;
+
+
+JOINS
+LEFT JOIN / LEFT OUTER JOIN
+The LEFT JOIN keyword returns all records from the left table (table1), and the matched records from the right table (table2). The result is NULL from the right side, if there is no match.
+
+Syntax:
+
+SELECT column_name(s)
+FROM table1
+LEFT JOIN table2
+ON table1.column_name = table2.column_name;
+
+
+
+JOINS
+RIGHT JOIN / RIGHT OUTER JOIN
+The RIGHT JOIN keyword returns all records from the right table (table2), and the matched records from the left table (table1). The result is NULL from the left side, when there is no match.
+
+Syntax:
+
+SELECT column_name(s)
+FROM table1
+RIGHT JOIN table2
+ON table1.column_name = table2.column_name;
+
+
+JOINS
+FULL JOIN
+The FULL OUTER JOIN keyword returns all records when there is a match in left (table1) or right (table2) table records.
+Note: FULL OUTER JOIN can potentially return very large result-sets!
+Tip: FULL OUTER JOIN and FULL JOIN are the same.
+
+Syntax:
+SELECT column_name(s)
+FROM table1
+FULL OUTER JOIN table2
+ON table1.column_name = table2.column_name
+WHERE condition; 
+
+
+SET OPERATORS
+Set operators are used to join the results of two (or more) SELECT statements.
+
+The SET operators are:
+
+UNION and UNION ALL – combine result set of two or more queries into a single result set using the UNION and UNION ALL operators.
+INTERSECT  – return the intersection of two or more queries using the INTERSECT operator.
+MINUS – subtract a result set from another result set using the MINUS operator.
+
+UNION AND UNION ALL OPERATOR
+The UNION operator is used to combine the result-set of two or more SELECT statements.
+
+Each SELECT statement within UNION must have the same number of columns
+The columns must also have similar data types
+The columns in each SELECT statement must also be in the same order
+The UNION operator selects only distinct values by default. 
+
+--Union
+SELECT column_name(s) FROM table1
+UNION
+SELECT column_name(s) FROM table2;
+
+To allow duplicate values, use UNION ALL
+--Union All
+SELECT column_name(s) FROM table1
+UNION ALL
+SELECT column_name(s) FROM table2;
+
+
+
+SET OPERATORS
+INTERSECT OPERATOR*
+The INTERSECT operator is a set operator that returns distinct rows of two or more result sets from SELECT statements.
+
+Like the UNION operator, the INTERSECT operator removes the duplicate rows from the final result set.
+* Not supported by MySQL
+SELECT column_name(s) FROM table1
+INTERSECT
+SELECT column_name(s) FROM table2;
+
+
+MINUS OPERATOR*
+Besides the UNION, UNION ALL, and INTERSECT operators, SQL provides us with the MINUS operator that allows you to subtract one result set from another result set.
+The MINUS operator returns the unique rows produced by the first query but not by the second one.
+* Not supported by MySQL
+
+SELECT column_name(s) FROM table1
+MINUS
+SELECT column_name(s) FROM table2;
+
+CORRELATED SUBQUERY
+The following query finds all employees whose salary is higher than the average salary of the employees in their departments:
+
+SELECT employee_id, first_name, last_name, salary, department_id
+FROM employees e
+WHERE salary > (SELECT AVG(salary)
+                FROM employees
+                WHERE department_id = e.department_id)
+ORDER BY department_id, first_name, last_name;
+
+
+
+
